@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+  <context id="DB2Tables" targetRuntime="MyBatis3">
+  
+  	<plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+  	
+    <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+        connectionURL="jdbc:mysql://127.0.0.1:3306/tmall_springboot?serverTimezone=UTC"
+        userId="root"
+        password="zhouqi">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.qlazy.tmall.entity" targetProject="src\main\java">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="mapper"  targetProject="src\main\resources">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.qlazy.tmall.mapper"  targetProject="src\main\java">
+      <property name="enableSubPackages" value="true"/>
+    </javaClientGenerator>
+
+    <table tableName="user" domainObjectName="user">
+    	<columnOverride column="id" javaType="java.lang.Integer"></columnOverride>
+    </table>
+    
+    <table tableName="mycategory" domainObjectName="category" >
+    	<columnOverride column="id" javaType="java.lang.Integer"></columnOverride>
+    </table>
+    <table tableName="property" domainObjectName="property" >
+    	<columnOverride column="id" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="cid" javaType="java.lang.Integer"></columnOverride>
+    </table>
+    <table tableName="product" domainObjectName="product" >
+    	<columnOverride column="id" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="cid" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="stock" javaType="java.lang.Integer"></columnOverride>
+    </table>
+    <table tableName="propertyValue" domainObjectName="propertyvalue" >
+    	<columnOverride column="id" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="pid" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="ptid" javaType="java.lang.Integer"></columnOverride>
+    </table>
+    <table tableName="productImg" domainObjectName="productimage" >
+    	<columnOverride column="id" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="pid" javaType="java.lang.Integer"></columnOverride>
+    </table>
+    <table tableName="review" domainObjectName="review" >
+    	<columnOverride column="id" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="pid" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="uid" javaType="java.lang.Integer"></columnOverride>
+    </table>
+    <table tableName="order" domainObjectName="order_" >
+    	<columnOverride column="id" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="uid" javaType="java.lang.Integer"></columnOverride>
+    </table>
+    <table tableName="orderItem" domainObjectName="orderitem" >
+    	<columnOverride column="id" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="pid" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="uid" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="oid" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="number" javaType="java.lang.Integer"></columnOverride>
+    </table>
+
+  </context>
+</generatorConfiguration>
