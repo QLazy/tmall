@@ -24,6 +24,7 @@ public class CategoryService {
 	
 	public List<CategoryDTO> fillAllCategory(){
 		
+		categoryExp.setOrderByClause("id desc");
 		List<category> categories = categoryMap.selectByExample(categoryExp);
 		
 		//将查询到的categories重新封装为CategoryDTO输出，

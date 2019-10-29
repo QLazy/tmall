@@ -6,7 +6,7 @@ CREATE TABLE user (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  
-CREATE TABLE category (
+CREATE TABLE mycategory (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(255) DEFAULT NULL,
   PRIMARY KEY (id)
@@ -17,7 +17,7 @@ CREATE TABLE property (
   cid int(11) DEFAULT NULL,
   name varchar(255) DEFAULT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_property_category FOREIGN KEY (cid) REFERENCES category (id)
+  CONSTRAINT fk_property_mycategory FOREIGN KEY (cid) REFERENCES mycategory (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
  
 CREATE TABLE product (
@@ -30,7 +30,7 @@ CREATE TABLE product (
   cid int(11) DEFAULT NULL,
   createDate datetime DEFAULT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_product_category FOREIGN KEY (cid) REFERENCES category (id)
+  CONSTRAINT fk_product_mycategory FOREIGN KEY (cid) REFERENCES mycategory (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
  
 CREATE TABLE propertyvalue (
