@@ -20,7 +20,7 @@ class TmallApplicationTests {
         }
    
         try (
-                Connection c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/tmall_springboot?useUnicode=true&characterEncoding=utf8",
+                Connection c = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/tmall_springboot?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC",
                         "root", "zhouqi");
                 Statement s = c.createStatement();
         )

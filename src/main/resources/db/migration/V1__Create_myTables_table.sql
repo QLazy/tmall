@@ -1,4 +1,4 @@
-CREATE TABLE user (
+CREATE TABLE myuser (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(255) DEFAULT NULL, 
   password varchar(255) DEFAULT NULL,
@@ -59,7 +59,7 @@ CREATE TABLE review (
   createDate datetime DEFAULT NULL,
   PRIMARY KEY (id),
   CONSTRAINT fk_review_product FOREIGN KEY (pid) REFERENCES product (id),
-    CONSTRAINT fk_review_user FOREIGN KEY (uid) REFERENCES user (id)
+    CONSTRAINT fk_review_myuser FOREIGN KEY (uid) REFERENCES myuser (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
  
 CREATE TABLE order_ (
@@ -77,7 +77,7 @@ CREATE TABLE order_ (
   uid int(11) DEFAULT NULL,
   status varchar(255) DEFAULT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_order_user FOREIGN KEY (uid) REFERENCES user (id)
+  CONSTRAINT fk_order_myuser FOREIGN KEY (uid) REFERENCES myuser (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
  
 CREATE TABLE orderitem (
@@ -87,7 +87,7 @@ CREATE TABLE orderitem (
   uid int(11) DEFAULT NULL,
   number int(11) DEFAULT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_orderitem_user FOREIGN KEY (uid) REFERENCES user (id),
+  CONSTRAINT fk_orderitem_myuser FOREIGN KEY (uid) REFERENCES myuser (id),
   CONSTRAINT fk_orderitem_product FOREIGN KEY (pid) REFERENCES product (id),
   CONSTRAINT fk_orderitem_order FOREIGN KEY (oid) REFERENCES order_ (id)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
