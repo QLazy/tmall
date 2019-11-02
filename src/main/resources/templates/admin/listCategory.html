@@ -1,36 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:include="include/admin/adminHeader::html('·ÖÀà¹ÜÀí')"></head>
+<head th:include="include/admin/adminHeader::html('åˆ†ç±»ç®¡ç†')">
+	<meta charset="UTF-8">
+</head>
 <body>
 	<div th:replace="include/admin/adminNavigator::html"></div>
 	<script>
 		$(function() {
 			var data4Vue = {
 				uri : 'categories',
-				beans : []
+				beans : [],
+				pagination : {}
 			};
 
 			//ViewModel
 			var vue = new Vue({
 				el : '#workingArea',
 				data : data4Vue,
-				mounted : function() { //mounted¡¡±íÊ¾Õâ¸ö Vue ¶ÔÏó¼ÓÔØ³É¹¦ÁË
+				mounted : function() { //mountedã€€è¡¨ç¤ºè¿™ä¸ª Vue å¯¹è±¡åŠ è½½æˆåŠŸäº†
 					this.list();
 				},
 				methods : {
 					list : function() {
 						var url = this.uri;
 						axios.get(url).then(function(response) {
-							vue.beans = response.data;
+							vue.pagination = response.data;
+							vue.beans = response.data.data;
 						});
-					}
+					},
+					jump: function(page){
+	                    jump(page,vue); //å®šä¹‰åœ¨adminHeader.html ä¸­
+	                },
+	                jumpByNumber: function(start){
+	                    jumpByNumber(start,vue);
+	                }
 				}
 			});
 		});
 	</script>
 	<div id="workingArea">
-		<h1 class="label label-info">·ÖÀà¹ÜÀí</h1>
+		<h1 class="label label-info">åˆ†ç±»ç®¡ç†</h1>
 		<br> <br>
 		<div class="listDataTableDiv">
 			<table
@@ -38,12 +48,12 @@
 				<thead>
 					<tr class="success">
 						<th>ID</th>
-						<th>Í¼Æ¬</th>
-						<th>·ÖÀàÃû³Æ</th>
-						<th>ÊôĞÔ¹ÜÀí</th>
-						<th>²úÆ·¹ÜÀí</th>
-						<th>±à¼­</th>
-						<th>É¾³ı</th>
+						<th>å›¾ç‰‡</th>
+						<th>åˆ†ç±»åç§°</th>
+						<th>å±æ€§ç®¡ç†</th>
+						<th>äº§å“ç®¡ç†</th>
+						<th>ç¼–è¾‘</th>
+						<th>åˆ é™¤</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -64,6 +74,7 @@
 				</tbody>
 			</table>
 		</div>
+		<div th:replace="include/admin/adminPage::html" ></div>
 	</div>
 	<div th:replace="include/admin/adminFooter::html"></div>
 </body>
