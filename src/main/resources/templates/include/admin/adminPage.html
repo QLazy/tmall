@@ -1,7 +1,7 @@
 <div class="pageDiv" th:fragment="html">
 	<nav>
 	  <ul class="pagination">
-	    <li :class="{ disabled: pagination.showFirstPage}">
+	    <li :class="{ disabled: !pagination.showFirstPage}">
 	      <a  href="#nowhere" @click="jump('first')">&lt;&lt;</a>
 	    </li>
 	    <li :class="{ disabled: !pagination.showPrvious }">
@@ -9,7 +9,7 @@
 	    </li>		    
 
 		<li  v-for="i in pagination.pages">
-			<a href="#nowhere" @click="jumpByNumber(i-1)" >
+			<a href="#nowhere" @click="jumpByNumber(i)" >
 				{{i}}
 			</a>
 		</li>
@@ -17,7 +17,7 @@
 	    <li :class="{ disabled: !pagination.showNext }">
 	      <a  href="#nowhere" @click="jump('next')">&gt;</a>
 	    </li>
-	    <li :class="{ disabled: pagination.showEndPage }">
+	    <li :class="{ disabled: !pagination.showEndPage }">
 	      <a  href="#nowhere" @click="jump('last')">&gt;&gt;</a>
 	    </li>		    
 	  </ul>

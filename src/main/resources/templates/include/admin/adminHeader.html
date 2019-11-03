@@ -83,8 +83,9 @@
 	}
     //跳转函数
     function jump(page,vue){
-		if('first'== page && !vue.pagination.showFirstPage)
-			vue.list(0);
+    	debugger;
+		if('first'== page && vue.pagination.showFirstPage)
+			vue.list(1);
 		
 		else if('pre'== page &&	vue.pagination.showPrvious )
 			vue.list(vue.pagination.page-1);
@@ -92,11 +93,13 @@
 		else if('next'== page && vue.pagination.showNext)
 			vue.list(vue.pagination.page+1);					
 		
-		else if('last'== page && !vue.pagination.showEndPage)
+		else if('last'== page && vue.pagination.showEndPage)
+			
 			vue.list(vue.pagination.totalPages);    	
     }
     //跳转函数
     function jumpByNumber(start,vue){
+    	debugger;
     	if(start!=vue.pagination.page)
 			vue.list(start);       	
     }

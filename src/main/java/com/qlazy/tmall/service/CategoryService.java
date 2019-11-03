@@ -75,7 +75,7 @@ public class CategoryService {
 		//将分页查询到的数据封装到DTO中传输
 		paginationDTO.setData(list);
 		paginationDTO.setPage(page);
-		paginationDTO.setTotalPages(totalPages);
+		paginationDTO.pagination(totalPages, page);
 		
 		return paginationDTO;
 	}
