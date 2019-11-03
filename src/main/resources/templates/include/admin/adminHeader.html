@@ -83,7 +83,6 @@
 	}
     //跳转函数
     function jump(page,vue){
-    	debugger;
 		if('first'== page && vue.pagination.showFirstPage)
 			vue.list(1);
 		
@@ -99,7 +98,6 @@
     }
     //跳转函数
     function jumpByNumber(start,vue){
-    	debugger;
     	if(start!=vue.pagination.page)
 			vue.list(start);       	
     }

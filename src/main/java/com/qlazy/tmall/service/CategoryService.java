@@ -1,19 +1,28 @@
 package com.qlazy.tmall.service;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.qlazy.tmall.dto.CategoryDTO;
 import com.qlazy.tmall.dto.PaginationDTO;
 import com.qlazy.tmall.dto.PaginationTempDTO;
 import com.qlazy.tmall.entity.category;
 import com.qlazy.tmall.entity.categoryExample;
+import com.qlazy.tmall.mapper.categoryExtMapper;
 import com.qlazy.tmall.mapper.categoryMapper;
+import com.qlazy.tmall.util.ImageUtil;
 
 @Service
 public class CategoryService {
@@ -23,6 +32,9 @@ public class CategoryService {
 
 	@Autowired
 	categoryMapper categoryMap;
+	
+	@Autowired
+	categoryExtMapper categoryExtMap;
 
 	public List<CategoryDTO> queryAllCategory() {
 
@@ -79,5 +91,20 @@ public class CategoryService {
 		
 		return paginationDTO;
 	}
-
+	//上传数据到数据库
+	public void add(category target) {
+		categoryExtMap.insert(target);
+	}
+	
+	//将上传的文件保存到本地
+	public void saveOrUpdateImageFile(category target, MultipartFile image, HttpServletRequest request)
+            throws IOException {
+        File imageFolder= new File(request.getServletContext().getRealPath("img/category"));
+        File file = new File(imageFolder,target.getId()+".jpg");
+        if(!file.getParentFile().exists())
+            file.getParentFile().mkdirs();
+        image.transferTo(file);
+        BufferedImage img = ImageUtil.change2jpg(file);
+        ImageIO.write(img, "jpg", file);
+    }
 }
