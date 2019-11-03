@@ -38,7 +38,7 @@ public class CategoryService {
 
 	public List<CategoryDTO> queryAllCategory() {
 
-		categoryExp.setOrderByClause("id asc");
+		categoryExp.setOrderByClause("id desc");
 		List<category> categories = categoryMap.selectByExample(categoryExp);
 
 		// 将查询到的categories重新封装为CategoryDTO输出，
@@ -75,7 +75,7 @@ public class CategoryService {
 		int pageStartData = size * (page - 1);
 
 		//升序分页查询
-		categoryExp.setOrderByClause("id asc");
+		categoryExp.setOrderByClause("id desc");
 		List<category> categories = categoryMap.selectByExampleWithRowbounds(categoryExp, new RowBounds(pageStartData,size));
 		//将查询到的数据封装到CategoryDTO中
 		List<CategoryDTO> list = categories.stream().map(category->{
@@ -93,7 +93,24 @@ public class CategoryService {
 	}
 	//上传数据到数据库
 	public void add(category target) {
+		//修改了相应的XML文件，防止后续更新，创建一个新的XML
 		categoryExtMap.insert(target);
+	}
+	
+	//根据ID删除数据
+	public void delete(int id) {
+		categoryMap.deleteByPrimaryKey(id);
+	}
+	
+	//根据ID查询相应的数据
+	public category queryCategoryById(int id) {
+		category category = categoryMap.selectByPrimaryKey(id);
+		return category;
+	}
+	
+	//更新数据
+	public void updata(category category) {
+		categoryMap.updateByPrimaryKey(category);
 	}
 	
 	//将上传的文件保存到本地

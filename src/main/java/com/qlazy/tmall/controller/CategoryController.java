@@ -1,11 +1,14 @@
 package com.qlazy.tmall.controller;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,5 +41,31 @@ public class CategoryController {
 		categoryService.add(target);
 		categoryService.saveOrUpdateImageFile(target, image, request);
 		return target;
+	}
+
+	// 删除数据
+	@DeleteMapping("/categories/{id}")
+	public String delete(@PathVariable("id") int id, HttpServletRequest request) {
+		categoryService.delete(id);
+		File imgFolder = new File(request.getServletContext().getRealPath("img/category"));
+		File file = new File(imgFolder, id + ".jpg");
+		file.delete();
+		return null;
+	}
+
+	// 查询数据
+	@GetMapping("/categories/{id}")
+	public category queryCategoryById(@PathVariable("id") int id) {
+		return categoryService.queryCategoryById(id);
+	}
+
+	// 更新数据
+	@PostMapping("/categories/{id}")
+	public void updataCategory(category category, MultipartFile image, HttpServletRequest request) throws IOException {
+		categoryService.updata(category);
+		//若不修改图片，则不保存
+		if (null != image) {
+			categoryService.saveOrUpdateImageFile(category, image, request);
+		}
 	}
 }
