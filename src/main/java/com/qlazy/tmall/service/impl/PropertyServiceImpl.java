@@ -12,7 +12,6 @@ import com.qlazy.tmall.dto.PaginationDTO;
 import com.qlazy.tmall.dto.PaginationTempDTO;
 import com.qlazy.tmall.dto.PropertyDTO;
 import com.qlazy.tmall.entity.category;
-import com.qlazy.tmall.entity.categoryExample;
 import com.qlazy.tmall.entity.property;
 import com.qlazy.tmall.entity.propertyExample;
 import com.qlazy.tmall.mapper.categoryMapper;
@@ -24,14 +23,8 @@ import com.qlazy.tmall.util.PaginationUtil;
 public class PropertyServiceImpl implements IService<PropertyDTO>{
 
 	@Autowired
-	propertyExample propertyExp;
-
-	@Autowired
 	propertyMapper propertyMap;
 
-	@Autowired
-	categoryExample categoryExp;
-	
 	@Autowired
 	categoryMapper categoryMap;
 	
@@ -40,13 +33,16 @@ public class PropertyServiceImpl implements IService<PropertyDTO>{
 		PaginationUtil paginationUtil = new PaginationUtil();
 		PaginationDTO<PropertyDTO> paginationDTO = new PaginationDTO<>();
 		//配置分页相应数据
+		propertyExample propertyExp = new propertyExample();
+		propertyExp.createCriteria().andCidEqualTo(cid);
 		dto.setTotalCount((int) propertyMap.countByExample(propertyExp));
 		paginationUtil.pagination(dto, paginationDTO);
 
 //		分页查询
-		propertyExp.createCriteria().andCidEqualTo(cid);
-		propertyExp.setOrderByClause("id desc");
-		List<property> properties = propertyMap.selectByExampleWithRowbounds(propertyExp,
+		propertyExample propertyExample = new propertyExample();
+		propertyExample.createCriteria().andCidEqualTo(cid);
+		propertyExample.setOrderByClause("id desc");
+		List<property> properties = propertyMap.selectByExampleWithRowbounds(propertyExample,
 				new RowBounds(paginationUtil.getPageStartData(), paginationUtil.getSize()));
 //		封装到DTO
 		List<PropertyDTO> propertyDTOs = properties.stream().map(property -> {
