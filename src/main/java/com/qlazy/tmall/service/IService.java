@@ -7,7 +7,7 @@ public interface IService<T> {
 //
 //	删除
 //	public void delete(int id);
-//
+
 //	更新
 //	public void updata(T property);
 }
