@@ -9,8 +9,8 @@ public class AdminPageController {
 	public String Admin() {
 		return "redirect:admin_category_list";
 	}
-	
-	@GetMapping(value="admin_category_list")
+//	category跳转
+	@GetMapping(value="/admin_category_list")
 	public String listCategory() {
 		return "admin/listCategory";
 	}
@@ -18,6 +18,46 @@ public class AdminPageController {
 	@GetMapping(value = "admin_category_edit")
 	public String editCategory() {
 		return "admin/editCategory";
+	}
+//	property跳转
+	@GetMapping(value="/admin_property_list")
+	public String listProperty() {
+		return "admin/listProperty";
+	}
+	
+	@GetMapping(value = "/admin_property_edit")
+	public String editProperty() {
+		return "admin/editProperty";
+	}
+	
+	@GetMapping(value = "/admin_propertyValue_edit")
+	public String editPropertyValue() {
+		return "admin/editPropertyValue";
+	}
+//	product跳转
+	@GetMapping(value = "/admin_product_list")
+	public String listProduct() {
+		return "admin/listProduct";
+	}
+	
+	@GetMapping(value = "/admin_product_edit")
+	public String editProduct() {
+		return "admin/editProduct";
+	}
+	
+	@GetMapping(value = "/admin_productImag_list")
+	public String listProductImag() {
+		return "admin/listProductImag";
+	}
+//	order跳转
+	@GetMapping(value = "/admin_order_list")
+	public String listOrder() {
+		return "admin/listOrder";
+	}
+//	user跳转
+	@GetMapping(value = "/damin_user_list")
+	public String listUser() {
+		return "admin/listUser";
 	}
 	
 }

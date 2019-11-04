@@ -40,7 +40,7 @@
                     var formData = new FormData();
                     formData.append("image", this.file);
                     formData.append("name", this.bean.name);
-                    axios.post(url,formData).then(function(response){
+                    axios.put(url,formData).then(function(response){
                         location.href=vue.listURL;
                     });
                 },

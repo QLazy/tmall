@@ -26,7 +26,7 @@ class TmallApplicationTests {
         )
         {
             for (int i = 1; i <=10 ; i++) {
-                String sqlFormat = "insert into mycategory values (null, '测试分类%d')";
+                String sqlFormat = "insert into property values (null,10, '测试属性%d')";
                 String sql = String.format(sqlFormat, i);
                 s.execute(sql);
             }

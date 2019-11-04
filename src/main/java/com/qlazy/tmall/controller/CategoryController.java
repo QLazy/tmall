@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,13 +19,13 @@ import com.qlazy.tmall.dto.CategoryDTO;
 import com.qlazy.tmall.dto.PaginationDTO;
 import com.qlazy.tmall.dto.PaginationTempDTO;
 import com.qlazy.tmall.entity.category;
-import com.qlazy.tmall.service.CategoryService;
+import com.qlazy.tmall.service.impl.CategoryServiceImpl;
 
 @RestController
 public class CategoryController {
 
 	@Autowired
-	CategoryService categoryService;
+	CategoryServiceImpl categoryService;
 
 	@GetMapping("/categories")
 	public PaginationDTO<CategoryDTO> list(@RequestParam(value = "size", defaultValue = "5") int size,
@@ -60,7 +61,7 @@ public class CategoryController {
 	}
 
 	// 更新数据
-	@PostMapping("/categories/{id}")
+	@PutMapping("/categories/{id}")
 	public void updataCategory(category category, MultipartFile image, HttpServletRequest request) throws IOException {
 		categoryService.updata(category);
 		//若不修改图片，则不保存

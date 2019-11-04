@@ -6,4 +6,5 @@ import lombok.Data;
 public class PaginationTempDTO {
 	private int page;
 	private int size;
+	private int totalCount;
 }
