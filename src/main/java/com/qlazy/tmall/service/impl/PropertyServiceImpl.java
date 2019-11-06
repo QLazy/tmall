@@ -85,7 +85,7 @@ public class PropertyServiceImpl implements IService<PropertyDTO>{
 	}
 
 //	更新
-	public void updata(property property) {
+	public void update(property property) {
 		propertyMap.updateByPrimaryKeySelective(property);
 	}
 

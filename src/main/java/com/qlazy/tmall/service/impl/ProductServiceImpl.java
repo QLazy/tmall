@@ -1,5 +1,6 @@
 package com.qlazy.tmall.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,7 @@ import com.qlazy.tmall.entity.category;
 import com.qlazy.tmall.entity.product;
 import com.qlazy.tmall.entity.productExample;
 import com.qlazy.tmall.mapper.categoryMapper;
+import com.qlazy.tmall.mapper.productExtMapper;
 import com.qlazy.tmall.mapper.productMapper;
 import com.qlazy.tmall.service.IService;
 import com.qlazy.tmall.util.PaginationUtil;
@@ -27,6 +29,9 @@ public class ProductServiceImpl implements IService<ProductDTO> {
 
 	@Autowired
 	categoryMapper categoryMap;
+	
+	@Autowired
+	productExtMapper productExtMap;
 
 //	分页查询product
 	public PaginationDTO<ProductDTO> queryProductByPage(PaginationTempDTO dto, int cid) {
@@ -42,7 +47,7 @@ public class ProductServiceImpl implements IService<ProductDTO> {
 
 		productExample productExample = new productExample();
 		productExample.createCriteria().andCidEqualTo(cid);
-		productExample.setOrderByClause("id desc");
+		//productExample.setOrderByClause("id desc");
 		List<product> products = productMap.selectByExampleWithRowbounds(productExample,
 				new RowBounds(util.getPageStartData(), util.getSize()));
 
@@ -74,9 +79,10 @@ public class ProductServiceImpl implements IService<ProductDTO> {
 	public void add(ProductDTO productDTO) {
 //		这样做的原因是：前端传入的是带category，在这边将其组合
 		product product = new product();
+		productDTO.setCid(productDTO.getCategory().getId());
+		productDTO.setCreatedate(new Date());
 		BeanUtils.copyProperties(productDTO, product);
-		product.setCid(productDTO.getCategory().getId());
-		productMap.insertSelective(product);
+		productExtMap.insertSelective(product);
 	}
 
 //	删除一个product
@@ -85,7 +91,7 @@ public class ProductServiceImpl implements IService<ProductDTO> {
 	}
 
 //	更新一个product
-	public void updata(product product) {
+	public void update(product product) {
 		productMap.updateByPrimaryKeySelective(product);
 	}
 }

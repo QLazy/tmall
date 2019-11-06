@@ -50,7 +50,7 @@ public class PropertyController {
 	
 	@PutMapping("/properties")
 	public property updata(@RequestBody property property) {
-		proService.updata(property);
+		proService.update(property);
 		return property;
 	}
 }
