@@ -17,6 +17,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class ImageUtil {
+//	将传入的图片转换成JPG格式
 	public static BufferedImage change2jpg(File f) {
 		try {
 			Image i = Toolkit.getDefaultToolkit().createImage(f.getAbsolutePath());
@@ -35,7 +36,7 @@ public class ImageUtil {
 			return null;
 		}
 	}
-
+//调整传入图片的尺寸
 	public static void resizeImage(File srcFile, int width, int height, File destFile) {
 		try {
 			if (!destFile.getParentFile().exists())

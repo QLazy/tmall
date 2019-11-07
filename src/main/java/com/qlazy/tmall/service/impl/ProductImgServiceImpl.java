@@ -13,6 +13,7 @@ import com.qlazy.tmall.entity.product;
 import com.qlazy.tmall.entity.productImg;
 import com.qlazy.tmall.entity.productImgExample;
 import com.qlazy.tmall.enums.ProductImgTypeEnum;
+import com.qlazy.tmall.mapper.productImgExtMapper;
 import com.qlazy.tmall.mapper.productImgMapper;
 import com.qlazy.tmall.mapper.productMapper;
 import com.qlazy.tmall.service.IService;
@@ -24,6 +25,9 @@ public class ProductImgServiceImpl implements IService<ProductImgDTO> {
 
 	@Autowired
 	productMapper productMap;
+	
+	@Autowired
+	productImgExtMapper productImgExtMap;
 
 //	设置产品图片
 	public void setFirstProductImg(ProductDTO productDTO) {
@@ -79,7 +83,7 @@ public class ProductImgServiceImpl implements IService<ProductImgDTO> {
 		productImg productImg = new productImg();
 		productImgDTO.change();
 		BeanUtils.copyProperties(productImgDTO, productImg);
-		productImgMap.insertSelective(productImg);
+		productImgExtMap.insertSelective(productImg);
 	}
 
 //	删除一个数据
