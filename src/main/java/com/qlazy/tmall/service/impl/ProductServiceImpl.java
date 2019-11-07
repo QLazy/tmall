@@ -47,7 +47,7 @@ public class ProductServiceImpl implements IService<ProductDTO> {
 
 		productExample productExample = new productExample();
 		productExample.createCriteria().andCidEqualTo(cid);
-		//productExample.setOrderByClause("id desc");
+		productExample.setOrderByClause("id desc");
 		List<product> products = productMap.selectByExampleWithRowbounds(productExample,
 				new RowBounds(util.getPageStartData(), util.getSize()));
 

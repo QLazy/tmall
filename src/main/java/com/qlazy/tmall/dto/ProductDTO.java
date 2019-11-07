@@ -18,7 +18,10 @@ public class ProductDTO {
     private Date createdate;
     private category category;
     
-    public void change() {
-    	cid = category.getId();
+    private ProductImgDTO firstProductImg;
+    
+    public void setCategory(category category) {
+    	this.category = category;
+    	this.cid = this.category.getId();
     }
 }

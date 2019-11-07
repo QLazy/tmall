@@ -53,7 +53,7 @@
     	<columnOverride column="pid" javaType="java.lang.Integer"></columnOverride>
     	<columnOverride column="ptid" javaType="java.lang.Integer"></columnOverride>
     </table>
-    <table tableName="productImg" domainObjectName="productimage" >
+    <table tableName="productimage" domainObjectName="productImg" >
     	<columnOverride column="id" javaType="java.lang.Integer"></columnOverride>
     	<columnOverride column="pid" javaType="java.lang.Integer"></columnOverride>
     </table>
