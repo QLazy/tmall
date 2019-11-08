@@ -29,7 +29,7 @@ public class ProductServiceImpl implements IService<ProductDTO> {
 
 	@Autowired
 	categoryMapper categoryMap;
-	
+
 	@Autowired
 	productExtMapper productExtMap;
 
@@ -58,7 +58,7 @@ public class ProductServiceImpl implements IService<ProductDTO> {
 		}).collect(Collectors.toList());
 //将查询到的数据封装到paginationDTO中
 		paginationDTO.setData(productDTOs);
-		
+
 		return paginationDTO;
 	}
 

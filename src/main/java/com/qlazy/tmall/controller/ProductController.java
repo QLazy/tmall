@@ -1,5 +1,7 @@
 package com.qlazy.tmall.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,7 +54,8 @@ public class ProductController {
 	}
 	
 	@DeleteMapping("/products/{id}")
-	public String delete(@PathVariable("id")int id) {
+	public String delete(@PathVariable("id")int id,HttpServletRequest request) {
+		productImgService.deleteImgByPid(id,request);
 		productService.delete(id);
 		return null;
 	}

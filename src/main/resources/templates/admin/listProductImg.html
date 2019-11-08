@@ -72,6 +72,7 @@
 						});
 					},
 					deleteBean:function(id){
+						debugger;
 						if(!checkDeleteLink()){
 							return;
 						}
@@ -185,7 +186,7 @@
 								<tr v-for="detailImg in detailProductImgs">
 									<td>{{detailImg.id}}</td>
 									<td><a title="点击查看原图"
-										：href="'img/productDetail/'+detailImg.id+'.jpg'"> <img
+										:href="'img/productDetail/'+detailImg.id+'.jpg'"> <img
 											height="50px" :src="'img/productDetail/'+detailImg.id+'.jpg'">
 									</a></td>
 									<td><a href="#nowhere" @click="deleteBean(detailImg.id)">

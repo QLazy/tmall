@@ -1,7 +1,10 @@
 package com.qlazy.tmall.service.impl;
 
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +28,7 @@ public class ProductImgServiceImpl implements IService<ProductImgDTO> {
 
 	@Autowired
 	productMapper productMap;
-	
+
 	@Autowired
 	productImgExtMapper productImgExtMap;
 
@@ -51,7 +54,7 @@ public class ProductImgServiceImpl implements IService<ProductImgDTO> {
 	public List<ProductImgDTO> queryProductImgByType(ProductDTO productDTO, ProductImgTypeEnum type) {
 		productImgExample imgExample = new productImgExample();
 
-		imgExample.createCriteria().andIdEqualTo(productDTO.getId()).andTypeEqualTo(type.getType());
+		imgExample.createCriteria().andPidEqualTo(productDTO.getId()).andTypeEqualTo(type.getType());
 		imgExample.setOrderByClause("id desc");
 		List<productImg> productImgs = productImgMap.selectByExample(imgExample);
 
@@ -65,15 +68,27 @@ public class ProductImgServiceImpl implements IService<ProductImgDTO> {
 
 	}
 
+//	查找数据，根据PID
+	public List<productImg> queryProductImgByPid(int pid) {
+		productImgExample imgExample = new productImgExample();
+
+		imgExample.createCriteria().andPidEqualTo(pid);
+		List<productImg> productImgs = productImgMap.selectByExample(imgExample);
+
+		return productImgs;
+	}
+
 //	查找一个数据，根据ID
 	public ProductImgDTO queryProductImgById(int id) {
 		ProductImgDTO imgDTO = new ProductImgDTO();
 
 		productImg productImg = productImgMap.selectByPrimaryKey(id);
-		product product = productMap.selectByPrimaryKey(productImg.getPid());
+		if (null != productImg) {
+			product product = productMap.selectByPrimaryKey(productImg.getPid());
 
-		imgDTO.setProduct(product);
-		BeanUtils.copyProperties(productImg, imgDTO);
+			imgDTO.setProduct(product);
+			BeanUtils.copyProperties(productImg, imgDTO);
+		}
 
 		return imgDTO;
 	}
@@ -84,11 +99,51 @@ public class ProductImgServiceImpl implements IService<ProductImgDTO> {
 		productImgDTO.change();
 		BeanUtils.copyProperties(productImgDTO, productImg);
 		productImgExtMap.insertSelective(productImg);
+		productImgDTO.setId(productImg.getId());
 	}
 
-//	删除一个数据
-	public void delete(int id) {
+//	删除一个数据,根据ID
+	public Object delete(int id, HttpServletRequest request) {
+		// 删除数据库数据
+		ProductImgDTO imgDTO = queryProductImgById(id);
 		productImgMap.deleteByPrimaryKey(id);
+
+		// 删除服务器保存图片
+		String folder = "img/";
+		if (ProductImgTypeEnum.single.getType().equals(imgDTO.getType())) {
+			folder += "productSingle";
+		} else {
+			folder += "productDetail";
+		}
+
+		File imgFolder = new File(request.getServletContext().getRealPath(folder));
+		File file = new File(imgFolder, imgDTO.getId() + ".jpg");
+		String fileName = file.getName();
+		file.delete();
+
+		if (ProductImgTypeEnum.single.getType().equals(imgDTO.getType())) {
+			String imgFolderSmall = request.getServletContext().getRealPath("/img/ProductSingle_small");
+			String imgFolderMiddle = request.getServletContext().getRealPath("/img/ProductSingle_middle");
+
+			File fileSmall = new File(imgFolderSmall, fileName);
+			File fileMiddle = new File(imgFolderMiddle, fileName);
+
+			fileSmall.delete();
+			fileMiddle.delete();
+		}
+		return null;
+	}
+
+//	删除一个数据,根据PID
+	public void deleteImgByPid(int pid,HttpServletRequest request) {
+		productImgExample imgExample = new productImgExample();
+		
+		imgExample.createCriteria().andPidEqualTo(pid);
+		List<productImg> productImgs = productImgMap.selectByExample(imgExample);
+		
+		for(productImg img:productImgs) {
+			delete(img.getId(),request);
+		}
 	}
 
 //	更新一个数据

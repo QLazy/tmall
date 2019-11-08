@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -65,7 +64,7 @@ public class ProductImgController {
 		productImgService.add(imgDTO);
 
 //		将图片保存到本地地址
-		String folder = "/img";
+		String folder = "img/";
 //		命名保存图片的文件夹
 		if (ProductImgTypeEnum.single.getType().equals(imgDTO.getType())) {
 			folder += "productSingle";
@@ -74,7 +73,6 @@ public class ProductImgController {
 		}
 //		图片保存地址
 		File imgFolder = new File(request.getServletContext().getRealPath(folder));
-		System.out.println(imgFolder);
 //		用ID命名图片保存
 		File file = new File(imgFolder, imgDTO.getId() + ".jpg");
 		String fileName = file.getName();
@@ -99,44 +97,21 @@ public class ProductImgController {
 			File fileSmall = new File(imgFolderSmall, fileName);
 			File fileMiddle = new File(imgFolderMiddle, fileName);
 			// 创建父文件夹
-			fileSmall.getParentFile().mkdirs();
-			fileMiddle.getParentFile().mkdirs();
+			if(!fileSmall.getParentFile().exists()) {
+				fileSmall.getParentFile().mkdirs();
+			}
+			if(!fileMiddle.getParentFile().exists()) {
+				fileMiddle.getParentFile().mkdirs();
+			}
 			// 调整图片大小
-			ImageUtil.resizeImage(fileSmall, 56, 56, fileSmall);
-			ImageUtil.resizeImage(fileMiddle, 217, 190, fileMiddle);
+			ImageUtil.resizeImage(file, 56, 56, fileSmall);
+			ImageUtil.resizeImage(file, 217, 190, fileMiddle);
 		}
 		return imgDTO;
 	}
 	
 	@DeleteMapping("/productImgs/{id}")
 	public Object delete(@PathVariable("id")int id,HttpServletRequest request) {
-		//删除数据库数据
-		productImgService.delete(id);
-		ProductImgDTO imgDTO = productImgService.queryProductImgById(id);
-		
-		//删除服务器保存图片
-		String folder = "/img";
-		if(ProductImgTypeEnum.single.getType().equals(imgDTO.getType())) {
-			folder += "ProductSingle";
-		}else {
-			folder += "ProductDetail";
-		}
-		
-		File imgFolder = new File(request.getServletContext().getRealPath(folder));
-		File file = new File(imgFolder,imgDTO.getId()+".jpg");
-		String fileName = file.getName();
-		file.delete();
-		
-		if(ProductImgTypeEnum.single.getType().equals(imgDTO.getType())) {
-			String imgFolderSmall = request.getServletContext().getRealPath("/img/ProductSingle_small");
-			String imgFolderMiddle = request.getServletContext().getRealPath("/img/ProductSingle_middle");
-			
-			File fileSmall = new File(imgFolderSmall,fileName);
-			File fileMiddle = new File(imgFolderMiddle,fileName);
-			
-			fileSmall.delete();
-			fileMiddle.delete();
-		}
-		return null;
+		return productImgService.delete(id,request);
 	}
 }
