@@ -45,9 +45,9 @@ public class AdminPageController {
 		return "admin/editProduct";
 	}
 	
-	@GetMapping(value = "/admin_productImag_list")
+	@GetMapping(value = "/admin_productImg_list")
 	public String listProductImag() {
-		return "admin/listProductImag";
+		return "admin/listProductImg";
 	}
 //	order跳转
 	@GetMapping(value = "/admin_order_list")

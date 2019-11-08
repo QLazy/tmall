@@ -14,6 +14,7 @@ import com.qlazy.tmall.dto.PaginationDTO;
 import com.qlazy.tmall.dto.PaginationTempDTO;
 import com.qlazy.tmall.dto.ProductDTO;
 import com.qlazy.tmall.entity.product;
+import com.qlazy.tmall.service.impl.ProductImgServiceImpl;
 import com.qlazy.tmall.service.impl.ProductServiceImpl;
 
 @RestController
@@ -21,6 +22,9 @@ public class ProductController {
 
 	@Autowired
 	ProductServiceImpl productService;
+	
+	@Autowired
+	ProductImgServiceImpl productImgService;
 
 	@GetMapping("/categories/{cid}/products")
 	public PaginationDTO<ProductDTO> list(@RequestParam(value = "size", defaultValue = "5") int size,
@@ -31,6 +35,7 @@ public class ProductController {
 		dto.setSize(size);
 		PaginationDTO<ProductDTO> paginationDTO = productService.queryProductByPage(dto, cid);
 
+		productImgService.setFirstProductImgs(paginationDTO.getData());
 		return paginationDTO;
 	}
 	

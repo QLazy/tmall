@@ -48,12 +48,15 @@ public class ProductImgController {
 	}
 
 	@PostMapping("/productImgs")
-	public ProductImgDTO add(@RequestBody ProductImgDTO imgDTO, @RequestParam("image") MultipartFile image,
+	public ProductImgDTO add(@RequestParam("type")String type,@RequestParam("pid")int pid,@RequestParam("image") MultipartFile image,
 			HttpServletRequest request) {
 //		创建对象
+		ProductImgDTO imgDTO = new ProductImgDTO();
 		product product = new product();
 
 //		赋值给imgDTO
+		imgDTO.setPid(pid);
+		imgDTO.setType(type);
 		ProductDTO productDTO = productService.queryProductById(imgDTO.getPid());
 		BeanUtils.copyProperties(productDTO, product);
 		imgDTO.setProduct(product);

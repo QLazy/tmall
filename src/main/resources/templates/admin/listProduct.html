@@ -110,14 +110,16 @@
 				<tbody>
 					<tr v-for="bean in beans ">
 						<td>{{bean.id}}</td>
-						<td></td>
+						<td>
+							<img v-if="null!=bean.firstProductImg" width="40px" :src="'/img/ProductSingle/'+bean.firstProductImg.id+'.jpg'">
+						</td>
 						<td>{{bean.name}}</td>
 						<td>{{bean.subtitle}}</td>
 						<td>{{bean.originalprice}}</td>
 						<td>{{bean.promoteprice}}</td>
 						<td>{{bean.stock}}</td>
 
-						<td><a :href="'admin_productImage_list?pid=' + bean.id "><span
+						<td><a :href="'admin_productImg_list?pid=' + bean.id "><span
 								class="glyphicon glyphicon-picture"></span></a></td>
 						<td><a :href="'admin_propertyValue_edit?pid=' + bean.id "><span
 								class="glyphicon glyphicon-th-list"></span></a></td>
