@@ -12,10 +12,10 @@ public class PaginationDTO<T> {
 	private boolean showFirstPage;
 	private boolean showNext;
 	private boolean showEndPage;
-	private int pageStartData;
-	private int totalPages;
-	private int page;
-	private int size;
+	private Integer pageStartData;
+	private Integer totalPages;
+	private Integer page;
+	private Integer size;
 	private List<Integer> pages = new ArrayList<>();
 
 	public void pagination(int totalPages, int page) {

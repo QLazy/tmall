@@ -6,8 +6,8 @@ import lombok.Data;
 
 @Data
 public class ProductImgDTO {
-	private int id;
-	private int pid;
+	private Integer id;
+	private Integer pid;
 	private String type;
 	private product product;
 	

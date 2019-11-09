@@ -20,12 +20,20 @@ import com.qlazy.tmall.dto.PaginationDTO;
 import com.qlazy.tmall.dto.PaginationTempDTO;
 import com.qlazy.tmall.entity.category;
 import com.qlazy.tmall.service.impl.CategoryServiceImpl;
+import com.qlazy.tmall.service.impl.ProductServiceImpl;
+import com.qlazy.tmall.service.impl.PropertyValueServiceImpl;
 
 @RestController
 public class CategoryController {
 
 	@Autowired
 	CategoryServiceImpl categoryService;
+	
+	@Autowired
+	PropertyValueServiceImpl propertyValueService;
+	
+	@Autowired
+	ProductServiceImpl productService;
 
 	@GetMapping("/categories")
 	public PaginationDTO<CategoryDTO> list(@RequestParam(value = "size", defaultValue = "5") int size,

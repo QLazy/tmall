@@ -39,13 +39,13 @@
 							vue.singleProductImgs = response.data;
 						});
 					},
-					listDetails:function(start){
+					listDetails:function(){
 						var url = "products/"+pid+"/"+this.uri+"?type=detail";
 						axios.get(url).then(function(response){
 							vue.detailProductImgs = response.data;
 						});
 					},
-					addSingle:function(start){
+					addSingle:function(){
 						if(!checkEmpty(this.singleFile,"单个产品图片")){
 							return;
 						}

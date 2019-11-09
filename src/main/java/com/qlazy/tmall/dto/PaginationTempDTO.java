@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class PaginationTempDTO {
-	private int page;
-	private int size;
-	private int totalCount;
+	private Integer page;
+	private Integer size;
+	private Integer totalCount;
 }
