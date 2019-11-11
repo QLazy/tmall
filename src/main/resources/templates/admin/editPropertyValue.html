@@ -14,44 +14,47 @@
 				product : '',
 				category : ''
 			};
-			
 			var vue = new Vue({
-				el:'#workingArea',
-				data:data4Vue,
-				mounted:function(){
-					
+				el : '#workingArea',
+				data : data4Vue,
+				mounted : function() {
+					this.getProduct(pid);
+					this.list();
 				},
-				methods:function(){
-					list:function(){
-						var url = "products/"+pid+"/"+this.uri;
-						axios.get(url).then(function(response){
+				methods : {
+					list : function() {
+						var url = "products/" + pid + "/" + this.uri;
+						axios.get(url).then(function(response) {
 							vue.beans = response.data;
 						});
 					},
-					getProduct:function(pid){
-						var url = "products/"+pid;
-						axios.get(url).then(function(response){
+					getProduct : function(pid) {
+						var url = "products/" + pid;
+						axios.get(url).then(function(response) {
 							vue.product = response.data;
 							vue.category = vue.product.category;
 						});
 					},
-					updata:function(propertyValue){
+					update : function(propertyValue) {
 						var url = this.uri;
 						var id = propertyValue.id;
-						$("#pvid"+id).css("border","2px solid yellow");
-						axios.put(url,propertyValue).then(function(response){
-							if(id == response.data.id){
-								$("#pvid"+id).css("border","2px solid green");
-							}else{
-								$("#pvid"+id).css("border","2px solid red");
-							}
-						});
+						$("#pvid" + id).css("border", "2px solid yellow");
+						axios.put(url, propertyValue).then(
+								function(response) {
+									if (id == response.data.id) {
+										$("#pvid" + id).css("border",
+												"2px solid green");
+									} else {
+										$("#pvid" + id).css("border",
+												"2px solid red");
+									}
+								});
 					}
 				}
-			})
-		})
+			});
+		});
 	</script>
-	<div id="#workingArea">
+	<div id="workingArea">
 		<ol class="breadcrumb">
 			<li><a href="admin_category_list">所有分类</a></li>
 			<li><a :href="'admin_product_list?cid='+category.id">{{category.name}}</a></li>
@@ -60,12 +63,12 @@
 		</ol>
 		<div class="editPVDiv">
 			<div v-for="bean in beans" class="eachPV">
-				<span class="pvName">{{bean.propertyDTO.name}}</span>
-				<span class="pvValue">
-					<input class="pvValue" :id="'pvid'+bean.id" type="text" v-model="bean.value" @keyup="update(bean)">
+				<span class="pvName">{{bean.propertyDTO.name}}</span> <span
+					class="pvValue"> <input class="pvValue" :id="'pvid'+bean.id"
+					type="text" v-model="bean.value" @keyup="update(bean)">
 				</span>
 			</div>
-			<div style="clear:both"></div>
+			<div style="clear: both"></div>
 		</div>
 	</div>
 	<div th:replace="include/admin/adminFooter::html"></div>

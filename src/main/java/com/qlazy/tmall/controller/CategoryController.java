@@ -28,10 +28,10 @@ public class CategoryController {
 
 	@Autowired
 	CategoryServiceImpl categoryService;
-	
+
 	@Autowired
 	PropertyValueServiceImpl propertyValueService;
-	
+
 	@Autowired
 	ProductServiceImpl productService;
 
@@ -55,7 +55,8 @@ public class CategoryController {
 	// 删除数据
 	@DeleteMapping("/categories/{id}")
 	public String delete(@PathVariable("id") int id, HttpServletRequest request) {
-		categoryService.delete(id);
+
+		categoryService.delete(id, request);
 		File imgFolder = new File(request.getServletContext().getRealPath("img/category"));
 		File file = new File(imgFolder, id + ".jpg");
 		file.delete();
@@ -72,7 +73,7 @@ public class CategoryController {
 	@PutMapping("/categories/{id}")
 	public void updataCategory(category category, MultipartFile image, HttpServletRequest request) throws IOException {
 		categoryService.updata(category);
-		//若不修改图片，则不保存
+		// 若不修改图片，则不保存
 		if (null != image) {
 			categoryService.saveOrUpdateImageFile(category, image, request);
 		}

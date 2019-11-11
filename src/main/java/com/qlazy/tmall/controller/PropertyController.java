@@ -19,7 +19,7 @@ import com.qlazy.tmall.service.impl.PropertyServiceImpl;
 @RestController
 public class PropertyController {
 	@Autowired
-	PropertyServiceImpl proService;
+	PropertyServiceImpl propertyService;
 
 	@GetMapping("/categories/{cid}/properties")
 	public PaginationDTO<PropertyDTO> list(@RequestParam(value = "size", defaultValue = "5") int size,
@@ -27,30 +27,30 @@ public class PropertyController {
 		PaginationTempDTO dto = new PaginationTempDTO();
 		dto.setPage(page);
 		dto.setSize(size);
-		PaginationDTO<PropertyDTO> paginationDTO = proService.queryPropertyByPage(dto, cid);
+		PaginationDTO<PropertyDTO> paginationDTO = propertyService.queryPropertyByPage(dto, cid);
 		return paginationDTO;
 	}
 
 	@GetMapping("/properties/{id}")
 	public PropertyDTO queryPropertyById(@PathVariable("id") int id) {
-		return proService.queryPropertyById(id);
+		return propertyService.queryPropertyById(id);
 	}
-	
+
 	@PostMapping("/properties")
 	public PropertyDTO add(@RequestBody PropertyDTO propertyDTO) {
-		proService.add(propertyDTO);
+		propertyService.add(propertyDTO);
 		return propertyDTO;
 	}
-	
+
 	@DeleteMapping("/properties/{id}")
-	public String delete(@PathVariable("id")int id) {
-		proService.delete(id);
-		return null;
+	public void delete(@PathVariable("id") int id) {
+
+		propertyService.delete(id);
 	}
-	
+
 	@PutMapping("/properties")
 	public property updata(@RequestBody property property) {
-		proService.update(property);
+		propertyService.update(property);
 		return property;
 	}
 }

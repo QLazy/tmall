@@ -18,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.qlazy.tmall.dto.CategoryDTO;
 import com.qlazy.tmall.dto.PaginationDTO;
 import com.qlazy.tmall.dto.PaginationTempDTO;
+import com.qlazy.tmall.dto.ProductDTO;
+import com.qlazy.tmall.dto.PropertyDTO;
 import com.qlazy.tmall.entity.category;
 import com.qlazy.tmall.entity.categoryExample;
 import com.qlazy.tmall.mapper.categoryExtMapper;
@@ -27,7 +29,7 @@ import com.qlazy.tmall.util.ImageUtil;
 import com.qlazy.tmall.util.PaginationUtil;
 
 @Service
-public class CategoryServiceImpl implements IService<category>{
+public class CategoryServiceImpl implements IService<category> {
 
 	@Autowired
 	categoryExample categoryExp;
@@ -37,7 +39,13 @@ public class CategoryServiceImpl implements IService<category>{
 
 	@Autowired
 	categoryExtMapper categoryExtMap;
-	
+
+	@Autowired
+	PropertyServiceImpl propertyService;
+
+	@Autowired
+	ProductServiceImpl productService;
+
 	public PaginationDTO<CategoryDTO> queryCategoryByPage(PaginationTempDTO dto) {
 		PaginationUtil paginationUtil = new PaginationUtil();
 		PaginationDTO<CategoryDTO> paginationDTO = new PaginationDTO<>();
@@ -71,7 +79,18 @@ public class CategoryServiceImpl implements IService<category>{
 	}
 
 	// 根据ID删除数据
-	public void delete(int id) {
+	public void delete(int id, HttpServletRequest request) {
+		List<PropertyDTO> propertyDTOs = propertyService.queryPropertyByCid(id);
+		List<ProductDTO> productDTOs = productService.queryProductByCid(id);
+
+		for (PropertyDTO propertyDTO : propertyDTOs) {
+			propertyService.delete(propertyDTO.getId());
+		}
+
+		for (ProductDTO productDTO : productDTOs) {
+			productService.delete(productDTO.getId(), request);
+		}
+
 		categoryMap.deleteByPrimaryKey(id);
 	}
 

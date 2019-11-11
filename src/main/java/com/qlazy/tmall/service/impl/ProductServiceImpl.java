@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,12 @@ public class ProductServiceImpl implements IService<ProductDTO> {
 
 	@Autowired
 	productExtMapper productExtMap;
+
+	@Autowired
+	ProductImgServiceImpl productImgService;
+
+	@Autowired
+	PropertyValueServiceImpl propertyValueService;
 
 //	分页查询product
 	public PaginationDTO<ProductDTO> queryProductByPage(PaginationTempDTO dto, int cid) {
@@ -74,6 +82,25 @@ public class ProductServiceImpl implements IService<ProductDTO> {
 
 		return productDTO;
 	}
+	
+//	根据ID查询相应的product，并一同获取相应的category
+	public List<ProductDTO> queryProductByCid(int cid) {
+		productExample example = new productExample();
+		
+//		根据ID查询相应的product并将数据赋值到DTO中
+		example.createCriteria().andCidEqualTo(cid);
+		List<product> products = productMap.selectByExample(example);
+		
+		List<ProductDTO> productDTOs = products.stream().map(product->{
+			ProductDTO productDTO = new ProductDTO();
+			BeanUtils.copyProperties(product, productDTO);
+			
+			return productDTO;
+		}).collect(Collectors.toList());
+		
+
+		return productDTOs;
+	}
 
 //	增加一个product
 	public void add(ProductDTO productDTO) {
@@ -86,7 +113,9 @@ public class ProductServiceImpl implements IService<ProductDTO> {
 	}
 
 //	删除一个product
-	public void delete(int id) {
+	public void delete(int id, HttpServletRequest request) {
+		propertyValueService.deleteByProduct(id);
+		productImgService.deleteImgByPid(id, request);
 		productMap.deleteByPrimaryKey(id);
 	}
 

@@ -28,6 +28,9 @@ public class PropertyServiceImpl implements IService<PropertyDTO> {
 	@Autowired
 	categoryMapper categoryMap;
 
+	@Autowired
+	PropertyValueServiceImpl propertyValueService;
+
 	// 分页查询property
 	public PaginationDTO<PropertyDTO> queryPropertyByPage(PaginationTempDTO dto, int cid) {
 		PaginationUtil paginationUtil = new PaginationUtil();
@@ -74,19 +77,19 @@ public class PropertyServiceImpl implements IService<PropertyDTO> {
 	// 根据ID查询相应的property
 	public List<PropertyDTO> queryPropertyByCid(int cid) {
 		propertyExample propertyExample = new propertyExample();
-		
+
 //		根据ID查询property
 		propertyExample.createCriteria().andCidEqualTo(cid);
 		List<property> properties = propertyMap.selectByExample(propertyExample);
-		
-		List<PropertyDTO> propertyDTOs = properties.stream().map(property->{
+
+		List<PropertyDTO> propertyDTOs = properties.stream().map(property -> {
 			PropertyDTO propertyDTO = new PropertyDTO();
 //			查询相应category
 			category category = categoryMap.selectByPrimaryKey(property.getCid());
 //			赋值给propertyDTO
 			BeanUtils.copyProperties(property, propertyDTO);
 			propertyDTO.setCategory(category);
-			
+
 			return propertyDTO;
 		}).collect(Collectors.toList());
 
@@ -103,6 +106,7 @@ public class PropertyServiceImpl implements IService<PropertyDTO> {
 
 //	删除
 	public void delete(int id) {
+		propertyValueService.deleteByProperty(id);
 		propertyMap.deleteByPrimaryKey(id);
 	}
 

@@ -40,21 +40,22 @@ public class PropertyValueServiceImpl implements IService<PropertyValueDTO> {
 		}
 	}
 	
-//	根据product来删除
-	public void delect(ProductDTO productDTO) {
+//	根据product删除相应的propertyValue
+	public void deleteByProduct(int pid) {
 		propertyvalueExample example = new propertyvalueExample();
 		
-//		根据pid查询相应的propertyValue
-		example.createCriteria().andPidEqualTo(productDTO.getId());
-		List<propertyvalue> propertyValues = propertyValueMap.selectByExample(example);
-		
-		for(propertyvalue propertyValue:propertyValues) {
-//			先删除属性，后删除关系表
-			propertyService.delete(propertyValue.getPtid());
-			propertyValueMap.deleteByPrimaryKey(propertyValue.getId());
-		}
-		
+		example.createCriteria().andPidEqualTo(pid);
+		propertyValueMap.deleteByExample(example);
 	}
+	
+//	根据property删除相应的propertyValue
+	public void deleteByProperty(int ptid) {
+		propertyvalueExample example = new propertyvalueExample();
+		
+		example.createCriteria().andPtidEqualTo(ptid);
+		propertyValueMap.deleteByExample(example);
+	}
+	
 
 //	更新数据
 	public void update(PropertyValueDTO propertyValueDTO) {
@@ -79,8 +80,12 @@ public class PropertyValueServiceImpl implements IService<PropertyValueDTO> {
 
 			return valueDTO;
 		}).collect(Collectors.toList());
-
-		return propertyValueDTOs.get(0);
+		
+		if(propertyValueDTOs.isEmpty()) {
+			return null;
+		}else {
+			return propertyValueDTOs.get(0);
+		}
 	}
 
 //	获取数据，根据pid
