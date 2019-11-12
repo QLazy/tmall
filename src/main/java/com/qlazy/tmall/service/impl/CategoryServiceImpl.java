@@ -55,7 +55,7 @@ public class CategoryServiceImpl implements IService<category> {
 		// 处理分页相应的数据
 		paginationUtil.pagination(dto, paginationDTO);
 
-		// 升序分页查询
+		// 分页查询
 		categoryExp.setOrderByClause("id desc");
 		List<category> categories = categoryMap.selectByExampleWithRowbounds(categoryExp,
 				new RowBounds(paginationUtil.getPageStartData(), paginationUtil.getSize()));

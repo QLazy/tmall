@@ -65,7 +65,7 @@
 			<div v-for="bean in beans" class="eachPV">
 				<span class="pvName">{{bean.propertyDTO.name}}</span> <span
 					class="pvValue"> <input class="pvValue" :id="'pvid'+bean.id"
-					type="text" v-model="bean.value" @keyup="update(bean)">
+					type="text" v-model="bean.value" @change="update(bean)">
 				</span>
 			</div>
 			<div style="clear: both"></div>

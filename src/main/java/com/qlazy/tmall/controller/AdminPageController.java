@@ -55,7 +55,7 @@ public class AdminPageController {
 		return "admin/listOrder";
 	}
 //	user跳转
-	@GetMapping(value = "/damin_user_list")
+	@GetMapping(value = "/admin_user_list")
 	public String listUser() {
 		return "admin/listUser";
 	}
