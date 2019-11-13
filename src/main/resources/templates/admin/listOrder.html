@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/admin/adminHeader::html('订单管理')">
+<meta charset="UTF-8">
+</head>
+<body>
+	<div th:replace="include/admin/adminNavigator::html"></div>
+	<script type="text/javascript">
+		$(function() {
+			var data4Vue = {
+				uri : 'orders',
+				beans : [],
+				pagination : {}
+			};
+			
+			var vue = new Vue({
+				el:'#workingArea',
+				data:data4Vue,
+				mounted:function(){
+					this.list(1);
+				},
+				methods:{
+					list:function(start){
+						var url = this.uri+"/start="+start;
+						axions.get(url).then(function(response){
+							vue.pagination = response.data;
+							vue.beans = response.data.data;
+						});
+					},
+					showOrderItems:function(order){
+						var id = order.id;
+						$("#orderItemsTR"+id).show();
+					},
+					deliveryOrder:function(order,e){
+						var url = "deliveryOrder/"+order.id;
+						axios.put(url).then(function(response){
+							$(e.target).hide();
+						});
+					},
+					jump:function(page){
+						jump(page,vue);
+					},
+					jumpByNumber:function(start){
+						jumpByNumber(start,vue);
+					}
+				}
+			});
+			
+			vue.filter('formatDateFilter',function(value,formatString){
+				if(null==value){
+					return;
+				}
+				formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+				return moment(value).format(formatString);
+			});
+			
+		})
+	</script>
+
+</body>
+</html>

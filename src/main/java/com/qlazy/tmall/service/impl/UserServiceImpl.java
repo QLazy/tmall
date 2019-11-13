@@ -52,5 +52,15 @@ public class UserServiceImpl implements IService<UserDTO> {
 		
 		return paginationDTO;
 	}
+	
+	public UserDTO queryUserbyId(int id) {
+		UserDTO userDTO = new UserDTO();
+		
+		user user = userMap.selectByPrimaryKey(id);
+		
+		BeanUtils.copyProperties(user, userDTO);
+		
+		return userDTO;
+	}
 
 }

@@ -62,16 +62,16 @@
     	<columnOverride column="pid" javaType="java.lang.Integer"></columnOverride>
     	<columnOverride column="uid" javaType="java.lang.Integer"></columnOverride>
     </table>
-    <table tableName="order" domainObjectName="order_" >
-    	<columnOverride column="id" javaType="java.lang.Integer"></columnOverride>
-    	<columnOverride column="uid" javaType="java.lang.Integer"></columnOverride>
-    </table>
     <table tableName="orderItem" domainObjectName="orderitem" >
     	<columnOverride column="id" javaType="java.lang.Integer"></columnOverride>
     	<columnOverride column="pid" javaType="java.lang.Integer"></columnOverride>
     	<columnOverride column="uid" javaType="java.lang.Integer"></columnOverride>
     	<columnOverride column="oid" javaType="java.lang.Integer"></columnOverride>
     	<columnOverride column="number" javaType="java.lang.Integer"></columnOverride>
+    </table>
+    <table tableName="order_" domainObjectName="order" >
+    	<columnOverride column="id" javaType="java.lang.Integer"></columnOverride>
+    	<columnOverride column="uid" javaType="java.lang.Integer"></columnOverride>
     </table>
 
   </context>
