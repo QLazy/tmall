@@ -48,7 +48,7 @@ public class OrderController {
 
 		OrderDTO orderDTO = orderService.queryOrderById(oid);
 		orderDTO.setDeliverydate(new Date());
-		orderDTO.setStatus(OrderStatusEnum.waitDelivery.getStatus());
+		orderDTO.setStatus(OrderStatusEnum.waitConfirm.getStatus());
 		BeanUtils.copyProperties(orderDTO, order);
 		orderService.update(order);
 

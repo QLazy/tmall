@@ -21,10 +21,11 @@
 				},
 				methods : {
 					list : function(start) {
-						var url = this.uri + "/start=" + start;
-						axions.get(url).then(function(response) {
+						var url = this.uri + "?start=" + start;
+						axios.get(url).then(function(response) {
+							debugger;
 							vue.pagination = response.data;
-							vue.beans = response.data.data;
+							vue.beans = vue.pagination.data;
 						});
 					},
 					showOrderItems : function(order) {
@@ -46,13 +47,14 @@
 				}
 			});
 
-			vue.filter('formatDateFilter', function(value, formatString) {
+			Vue.filter('formatDateFilter', function(value, formatString) {
 				if (null == value) {
-					return;
+					return "";
 				}
 				formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
 				return moment(value).format(formatString);
 			});
+			
 
 		})
 	</script>
@@ -79,9 +81,9 @@
 					<template v-for="bean in beans">
 					<tr>
 						<td>{{bean.status}}</td>
-						<td>{{bean.total}}</td>
+						<td>{{bean.totalAmount}}</td>
 						<td>{{bean.totalNumber}}</td>
-						<td>{{bean.user.name}}</td>
+						<td>{{bean.userDTO.name}}</td>
 						<td>{{bean.createdate | formatDateFilter}}</td>
 						<td>{{bean.paydate | formatDateFilter}}</td>
 						<td>{{bean.deliverydata | formatDateFilter}}</td>
@@ -104,15 +106,15 @@
 											:src="'img/productSingle/'+orderItem.productDTO.firstProductImg.id+'.jpg'">
 										</td>
 										<td>
-											<a :href="'product?product.id='+orderItem.product.id">
-												<span>{{orderItem.product.name}}</span> 
+											<a :href="'product?product.id='+orderItem.productDTO.id">
+												<span>{{orderItem.productDTO.name}}</span> 
 											</a>
 										</td>
 										<td align="right">
 											<span class="text-muted">{{orderItem.number}}个</span>
 										</td>
 										<td align="right">
-											<span class="text-muted">单价：￥ {{orderItem.product.promoteprice}}</span>
+											<span class="text-muted">单价：￥ {{orderItem.productDTO.promoteprice}}</span>
 										</td>
 									</tr>
 								</table>
