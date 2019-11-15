@@ -23,7 +23,6 @@
 					list : function(start) {
 						var url = this.uri + "?start=" + start;
 						axios.get(url).then(function(response) {
-							debugger;
 							vue.pagination = response.data;
 							vue.beans = vue.pagination.data;
 						});
@@ -35,6 +34,7 @@
 					deliveryOrder : function(order, e) {
 						var url = "deliveryOrder/" + order.id;
 						axios.put(url).then(function(response) {
+							$("#deliverydate").html(CurentTime());
 							$(e.target).hide();
 						});
 					},
@@ -51,10 +51,9 @@
 				if (null == value) {
 					return "";
 				}
-				formatString = formatString || 'YYYY-MM-DD HH:mm:ss';
+				formatString = formatString || 'YYYY-MM-DD HH:mm';
 				return moment(value).format(formatString);
 			});
-			
 
 		})
 	</script>
@@ -86,7 +85,7 @@
 						<td>{{bean.userDTO.name}}</td>
 						<td>{{bean.createdate | formatDateFilter}}</td>
 						<td>{{bean.paydate | formatDateFilter}}</td>
-						<td>{{bean.deliverydata | formatDateFilter}}</td>
+						<td id="deliverydate">{{bean.deliverydate | formatDateFilter}}</td>
 						<td>{{bean.confirmdate | formetDateFilter}}</td>
 						<td>
 							<button @click="showOrderItems(bean)"
@@ -105,17 +104,13 @@
 										<td align="left"><img width="40px" height="40px"
 											:src="'img/productSingle/'+orderItem.productDTO.firstProductImg.id+'.jpg'">
 										</td>
-										<td>
-											<a :href="'product?product.id='+orderItem.productDTO.id">
-												<span>{{orderItem.productDTO.name}}</span> 
-											</a>
+										<td><a
+											:href="'product?product.id='+orderItem.productDTO.id"> <span>{{orderItem.productDTO.name}}</span>
+										</a></td>
+										<td align="right"><span class="text-muted">{{orderItem.number}}个</span>
 										</td>
-										<td align="right">
-											<span class="text-muted">{{orderItem.number}}个</span>
-										</td>
-										<td align="right">
-											<span class="text-muted">单价：￥ {{orderItem.productDTO.promoteprice}}</span>
-										</td>
+										<td align="right"><span class="text-muted">单价：￥
+												{{orderItem.productDTO.promoteprice}}</span></td>
 									</tr>
 								</table>
 							</div>
@@ -125,8 +120,8 @@
 				</tbody>
 			</table>
 		</div>
-		<div th:replace="include/admin/adminPage::html" ></div>
+		<div th:replace="include/admin/adminPage::html"></div>
 	</div>
-	<div th:replace="include/admin/adminFooter::html" ></div>
+	<div th:replace="include/admin/adminFooter::html"></div>
 </body>
 </html>
